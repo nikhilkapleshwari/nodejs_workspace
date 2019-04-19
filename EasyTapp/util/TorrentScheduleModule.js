@@ -2,14 +2,15 @@ const RarbgApi = require('rarbg');
 var fs=require('fs');
 var rmdirSync = require('rmdir-sync');
 var SearchModel=require('../model/searchModel');
+var propertyReader=require('../PropertyReader');
 
 module.exports.schedule=function(req,res){
     body=req.body;
     var searchElements=body.searchString.split(",");
-    console.log("searching: "+JSON.stringify(body));
-    console.log("length:"+searchElements.length);
+    //console.log("searching: "+JSON.stringify(body));
+    //console.log("length:"+searchElements.length);
     if(searchElements != 'undefined,undefined,undefined'){
-        console.log("No undefined");
+        //console.log("No undefined");
         if(searchElements.length > 0 )
         cleanupDir(body.userEmail,function(){
             createDir(body.userEmail,function(){
@@ -18,7 +19,7 @@ module.exports.schedule=function(req,res){
                              var searchModel=new SearchModel(body.userEmail,element,body.categoryValue,body.sortingType,body.minSeeders,body.isScheduledSearch);
                     
                              writeToFile(searchModel,function(){
-                             console.log("saved item");
+                             //console.log("saved item");
                              });
                          }
                         });
@@ -26,9 +27,9 @@ module.exports.schedule=function(req,res){
             });
     res.end(JSON.stringify("Data saved!"));
     }else{
-        console.log("All undefined");
+        //console.log("All undefined");
         cleanupDir(body.userEmail,function(){
-            console.log("creating fresh dir!");
+            //console.log("creating fresh dir!");
             createDir(body.userEmail,function(){
             });
         });
@@ -39,20 +40,25 @@ module.exports.schedule=function(req,res){
 
 
 function writeToFile(searchModel,callback){
-    fs.appendFileSync('schedule/user/'+searchModel.userEmail+"/"+searchModel.searchString,JSON.stringify(searchModel));
+    var scheduleUserPath=propertyReader.getProperty('SCHEDULE_USER_PATH');
+    fs.appendFileSync(scheduleUserPath+searchModel.userEmail+"/"+searchModel.searchString,JSON.stringify(searchModel));
     callback();
 }
 
 function createDir(userEmail,callback){
-    fs.mkdirSync('schedule/user/'+userEmail);
-    fs.mkdirSync('schedule/userData/'+userEmail);
-    console.log('Dir Created..schedule/user/'+userEmail);
+    var scheduleUserPath=propertyReader.getProperty('SCHEDULE_USER_PATH');
+    var scheduleUserDataPath=propertyReader.getProperty('SCHEDULE_USERDATA_PATH');
+    fs.mkdirSync(scheduleUserPath+userEmail);
+    fs.mkdirSync(scheduleUserDataPath+userEmail);
+    //console.log('Dir Created..'+scheduleUserDataPath+userEmail);
     callback();
 }
 function cleanupDir(userEmail,callback){
-    rmdirSync('schedule/user/'+userEmail);
-    rmdirSync('schedule/userData/'+userEmail);
-    console.log("cleaning up..schedule/user/"+userEmail);
+    var scheduleUserPath=propertyReader.getProperty('SCHEDULE_USER_PATH');
+    var scheduleUserDataPath=propertyReader.getProperty('SCHEDULE_USERDATA_PATH');
+    rmdirSync(scheduleUserPath+userEmail);
+    rmdirSync(scheduleUserDataPath+userEmail);
+    //console.log("cleaning up.."+scheduleUserPath+userEmail);
     
     callback();
 }

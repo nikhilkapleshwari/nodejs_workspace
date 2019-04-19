@@ -31,7 +31,7 @@ const smtpTransport = nodemailer.createTransport({
 
  module.exports.send=function(username,subject,content){ 
 
-            console.log('content:'+content);
+            //console.log('content:'+content);
            const mailOptions = {
             from: "EasyTapp@gmail.com",
             to: username,
