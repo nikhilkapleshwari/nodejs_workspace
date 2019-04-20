@@ -1,4 +1,5 @@
 var fs=require('fs');
+var propertyReader=require('../PropertyReader');
 
 module.exports.getTorrentList=function(req,res){
     body=req.body;
@@ -6,8 +7,8 @@ module.exports.getTorrentList=function(req,res){
     //console.log("**********dashboard: "+JSON.stringify(body));
     //console.log("***********output:"+body.userEmail);
     
-       
-    fs.readdir('schedule/user/'+body.userEmail, function(err, items) {
+    var scheduleUserPath=propertyReader.getProperty('SCHEDULE_USER_PATH');       
+    fs.readdir(scheduleUserPath+body.userEmail, function(err, items) {
         //console.log("Items:"+items);
         
         if(items !== undefined ){

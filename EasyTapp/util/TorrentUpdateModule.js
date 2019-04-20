@@ -30,7 +30,8 @@ module.exports.getTorrent=function(req,res){
 
 
 function readUserDataFile(body,item,callback){
-    fs.readFile('schedule/userData/'+body.userEmail+"/"+item,function(err,data){
+    var scheduleUserDataPath=propertyReader.getProperty('SCHEDULE_USERDATA_PATH');
+    fs.readFile(scheduleUserDataPath+body.userEmail+"/"+item,function(err,data){
         //console.log('reading file');
         callback(JSON.stringify(JSON.parse(data)));
     });
