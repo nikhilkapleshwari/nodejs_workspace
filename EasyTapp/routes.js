@@ -6,4 +6,5 @@ module.exports = function(app){
     app.post('/getTorrentUpdate',reqCon.getTorrentUpdate);
     app.post('/verifyAccount',reqCon.verifyAccount);
     app.post('/sendTorrentMail',reqCon.sendTorrentMail);
+    app.post('/sendForgotPwdMail',reqCon.sendForgotPwdMail);
 }

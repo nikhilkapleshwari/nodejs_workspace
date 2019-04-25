@@ -26,8 +26,23 @@ module.exports.verifyAccount=function(req,res){
     var msg2="<html><body><a href=\"www.google.com\">Google</a></body></html>";
     var mailContent="<html><body>"+msg+"</body></html>";                                                                            
     //var notifierMsg='<h3>Hi '+userName+',</h3><br>New torrents available for your saved search: <b>'+msg+'</b><br>Login to <a href="http://theindependentdeveloper.com/easytapp">EasyTapp</a> for accessing magnet link';
-    var notifierMsg='<h3>Hi '+userName+',</h3><br>New torrents available for your saved search: <b>'+msg+'</b><br>Login to <a href="http://theindependentdeveloper.com">EasyTapp</a> for accessing magnet link';
+    var notifierMsg='<h3>Hi '+userName+',</h3><br>New torrents available for your saved search: <b>'+msg+'</b><br>Login to <a href="http://139.59.59.19:3001/login">EasyTapp</a> for accessing magnet link';
     var ans=mailSender.send(userName,subject,notifierMsg);
     res.end('Mail sent!');
  }
+
+ module.exports.sendForgotPwdMail=function(req,res){
+   body=req.body;
+   var token=JSON.parse(JSON.stringify(body)).token;
+   var userName=JSON.parse(JSON.stringify(body)).userName;
+   var subject="Forgot password link from EasyTapp";
+   //var link="http://139.59.59.19:3001/forgotpwd?token="+token;
+   //var link="http://139.59.59.19:3001/forgotpwd";
+   var link="http://localhost:3001/forgotpwd?token="+token;
+   console.log('link:'+link);
+   var notifierMsg='<h3>Hi '+userName+',</h3><br>Please click on reset password link<br><a href="'+link+'">Reset password</a>';
+   var ans=mailSender.send(userName,subject,notifierMsg);
+   res.end('Mail sent!');
+}
+ 
  

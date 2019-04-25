@@ -31,3 +31,7 @@ exports.verifyAccount=function(req,res){
 exports.sendTorrentMail=function(req,res){
   accountManage.sendTorrentMail(req,res);
 }
+
+exports.sendForgotPwdMail=function(req,res){
+  accountManage.sendForgotPwdMail(req,res);
+}
