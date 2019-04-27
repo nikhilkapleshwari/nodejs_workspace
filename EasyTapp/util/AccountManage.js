@@ -36,9 +36,9 @@ module.exports.verifyAccount=function(req,res){
    var token=JSON.parse(JSON.stringify(body)).token;
    var userName=JSON.parse(JSON.stringify(body)).userName;
    var subject="Forgot password link from EasyTapp";
-   //var link="http://139.59.59.19:3001/forgotpwd?token="+token;
+   var link="http://139.59.59.19:3001/forgotpwd?token="+token;
    //var link="http://139.59.59.19:3001/forgotpwd";
-   var link="http://localhost:3001/forgotpwd?token="+token;
+   //var link="http://localhost:3001/forgotpwd?token="+token;
    console.log('link:'+link);
    var notifierMsg='<h3>Hi '+userName+',</h3><br>Please click on reset password link<br><a href="'+link+'">Reset password</a>';
    var ans=mailSender.send(userName,subject,notifierMsg);
